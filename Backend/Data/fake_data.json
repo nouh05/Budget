@@ -1,0 +1,89 @@
+{
+    "users": [
+      {
+        "id": 1,
+        "name": "Noah",
+        "age": 23,
+        "monthly_income": 4500,
+        "strategy": "moderate",
+        "needs": {
+            "rent": 1500,
+            "groceries": 400,
+            "transportation": 100
+        },
+        "wants": {
+            "dining": 200,
+            "subscriptions": 125,
+            "misc": 150
+        }
+      },
+      {
+        "id": 2,
+        "name": "Lena",
+        "age": 26,
+        "monthly_income": 5200,
+        "strategy": "aggressive",
+        "needs": {
+            "rent": 1800,
+            "groceries": 450,
+            "transportation": 100
+        },
+        "wants": {
+            "dining": 180,
+            "subscriptions": 125,
+            "misc": 200
+        }
+      },
+      {
+        "id": 3,
+        "name": "Raj",
+        "age": 22,
+        "monthly_income": 3800,
+        "strategy": "moderate",
+        "needs": {
+            "rent": 1200,
+            "groceries": 350,
+            "transportation": 100
+        },
+        "wants": {
+            "dining": 215,
+            "subscriptions": 150,
+            "misc": 175
+        }
+      },
+      {
+        "id": 4,
+        "name": "John",
+        "age": 23,
+        "monthly_income": 4000,
+        "strategy": "aggressive",
+        "needs": {
+            "rent": 2000,
+            "groceries": 550,
+            "transportation": 100
+        },
+        "wants": {
+            "dining": 225,
+            "subscriptions": 163,
+            "misc": 168
+        }
+      },
+      {
+        "id": 5,
+        "name": "Amy",
+        "age": 38,
+        "monthly_income": 6000,
+        "strategy": "moderate",
+        "needs": {
+            "rent": 2500,
+            "groceries": 600,
+            "transportation": 200
+        },
+        "wants": {
+            "dining": 205,
+            "subscriptions": 174,
+            "misc": 180
+        }
+      }
+    ]
+  }
