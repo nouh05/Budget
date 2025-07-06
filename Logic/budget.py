@@ -14,6 +14,14 @@ def validate_user(user: dict) -> None:
     # check for valid user age (above 0)                   
     elif user["age"] <= 0:
         raise ValueError("Age must be positive.")
+    elif user["monthly_income"] < 0:
+        raise ValueError("Income must be at least 0")
+    elif user["needs"] < 0:
+        raise ValueError("Needs expenses must be at least 0")
+    elif user["wants"] < 0:
+        raise ValueError("Wants spending must be at least 0")
+
+
 # this function will handle the budgeting recommendation, the strategy will be decided here
 # INPUT: Desired strategy chosen by the user, either moderate or aggressive
 # OUTPUT: spending percentages per category in the form of needs, wants, saving/investing
@@ -45,6 +53,9 @@ def calculate_budget(user):
 
 # this function will return the estimated return from an index fund when the user is 65
 def calculate_return(monthly_investment, age, target_age, annual_return=0.08):
+    #sanity check
+    if target_age <= age:
+        raise ValueError("The target retirement age must be greater than your current age")
     #return per month
     r = annual_return / 12
     # number of months invested
@@ -54,16 +65,16 @@ def calculate_return(monthly_investment, age, target_age, annual_return=0.08):
     return round(future_value, 2)
 
 # this function will compare the spending of the user, compared to the recommended amount based on their chosen strategy
-def compare_spending_rec(user):
+def compare_spending_rec(user, target_age):
     #the recommended budget for the user
     recommended = calculate_budget(user)
     # the actual amount the user is spenidng on needs
-    actual_needs = sum(user["needs"].values())
+    actual_needs = user["needs"]
     #the amount of difference between the recommended needs and actual needs
     diff = actual_needs - recommended["needs"]
 
     # the actual amount that the user is spending on wants
-    actual_wants = sum(user["wants"].values())
+    actual_wants = user["wants"]
     #the difference between recommended needs and actual needs
     diff_w = actual_wants - recommended["wants"]
     
@@ -96,7 +107,7 @@ def compare_spending_rec(user):
             "your_age": user["age"],
             "target_age": 65,
             "monthly_investment": recommended["invest_amt"],
-            "expected_return": calculate_return(recommended["invest_amt"], user["age"], 65, annual_return=0.08)
+            "expected_return": calculate_return(recommended["invest_amt"], user["age"], target_age, annual_return=0.08)
         }
     }
 
