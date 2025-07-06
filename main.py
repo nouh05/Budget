@@ -1,5 +1,5 @@
 import json
-from Backend.logic.budget import validate_user, compare_spending_rec
+from Logic.budget import validate_user, compare_spending_rec
 
 def main():
     with open("/Users/noahatanda/Desktop/Budget/Backend/Data/fake_data.json") as f:

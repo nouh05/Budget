@@ -1,5 +1,5 @@
 import unittest
-from Backend.logic.budget import calculate_budget, calculate_return
+from Logic.budget import calculate_budget, calculate_return
 
 class TestBudgetFunctions(unittest.TestCase):
     def test_calculate_budget_moderate(self):
