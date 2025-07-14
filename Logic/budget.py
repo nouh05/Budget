@@ -27,11 +27,13 @@ def validate_user(user: dict) -> None:
 # OUTPUT: spending percentages per category in the form of needs, wants, saving/investing
 
 def get_budget_percentage(strategy: str):
-    if strategy == "moderate":
+    if strategy == "spender":
         #needs, wants, saving/investing
+        return 0.5, 0.4, 0.1
+    elif strategy == "balanced":
         return 0.5, 0.3, 0.2
-    elif strategy == "aggressive":
-        return 0.5, 0.2, 0.3
+    elif strategy == "saver":
+        return 0.5, 0.1, 0.4
 
 # this function will do the basic caluclation for to estimate recommended saving amounts for each individual user
 # it will estimate the recommended spending for each one based on their chosen investment strategy, and their salary
@@ -62,7 +64,7 @@ def calculate_return(monthly_investment, age, target_age, annual_return=0.08):
     n = (target_age - age) * 12
 
     future_value = monthly_investment * (((1 + r) ** n - 1) / r) * (1 + r)
-    return round(future_value, 2)
+    return round(future_value, 0)
 
 # this function will compare the spending of the user, compared to the recommended amount based on their chosen strategy
 def compare_spending_rec(user, target_age):
