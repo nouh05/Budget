@@ -1,0 +1,7 @@
+/* Center all primary buttons */
+div.stButton > button:first-child {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%; /* Adjust as needed */
+}
