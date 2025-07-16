@@ -3,6 +3,7 @@ from Logic.budget import calculate_return
 import time
 import os
 from datetime import datetime
+from google.oauth2.service_account import Credentials
 # --- Session State Initialization ---
 for key, default in {
     "calculated": False,
@@ -115,27 +116,34 @@ if st.session_state.calculated:
 
     # --- Google Sheets Setup ---
     def save_to_sheets(email):
-        scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-        creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
-        client = gspread.authorize(creds)
-        
-        # Open your sheet (replace with your actual sheet name)
-        sheet = client.open("1PercentGuiltTrip_Emails").sheet1
-        sheet.append_row([email, str(datetime.now())])  # Adds email + timestamp
+        try:
+            # Updated auth flow
+            scope = ["https://www.googleapis.com/auth/spreadsheets",
+                    "https://www.googleapis.com/auth/drive"]
+            
+            creds = Credentials.from_service_account_file("credentials.json", scopes=scope)
+            client = gspread.authorize(creds)
+            
+            sheet = client.open("1PercentGuiltTrip_Emails").sheet1
+            sheet.append_row([
+                email.strip(), 
+                datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            ])
+            return True
+        except Exception as e:
+            st.error(f"Error saving: {str(e)}")
+            return False
 
-    # --- Email Capture ---
+    # --- In your Streamlit code ---
     email = st.text_input("Enter your email:")
 
     if st.button("Notify Me"):
         if "@" in email and "." in email:
-            try:
-                save_to_sheets(email.strip())
-                st.success("🎉 You're on the list! Check your email for updates.")
-                st.balloons()  # Celebration!
-            except Exception as e:
-                st.error(f"Error saving: {e}")  # Debug any issues
+            if save_to_sheets(email):
+                st.success("🎉 Saved successfully!")
+                st.balloons()
         else:
-            st.warning("Please enter a valid email.")
+            st.warning("Please enter a valid email")
     # --- Share to Twitter ---
     tweet_text = f"I realized my ${habit} habit is costing me ${amount}/mo. If I just invested that instead, I'd have ${what_if:,.0f} by age 65. RIP to past me. #UnBudget #1PercentHabit "
     tweet_url = f"https://twitter.com/intent/tweet?text={tweet_text.replace(' ', '%20')}"
