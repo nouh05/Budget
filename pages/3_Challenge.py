@@ -1,7 +1,7 @@
 import streamlit as st
 from Logic.budget import calculate_return
 import time
-
+import os
 # --- Session State Initialization ---
 for key, default in {
     "calculated": False,
@@ -109,12 +109,13 @@ if st.session_state.calculated:
     """
     )
 
-    email = st.text_input("Enter your email:")
+    EMAIL_FILE = os.path.abspath("early_access_emails.txt")  # Full system path
+
     if st.button("Notify Me"):
         if "@" in email and "." in email:
-            with open("early_access_emails.txt", "a") as f:
+            with open(EMAIL_FILE, "a") as f:
                 f.write(email.strip() + "\n")
-            st.success("🎉 You’re on the list! First access coming soon.")
+            st.success(f"🎉 Saved to {EMAIL_FILE}")
         else:
             st.warning("Please enter a valid email address.")
     # --- Share to Twitter ---
