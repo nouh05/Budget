@@ -67,7 +67,18 @@ if wants_reminder and not st.session_state.reminder_toggle_clicked:
 #         file_name=f"sharecard_{habit}.png",
 #         mime="image/png"
 #     )
+# --- Email Collection ---
+st.markdown("### We’re building a different kind of money app — not one that shames you for boba, but one that helps you skip it once, and actually feel progress. Want early access? Join the testers list.")
 
+email = st.text_input("Enter your email to stay in the loop:")
+
+if st.button("Notify Me"):
+    if "@" in email and "." in email:
+        with open("early_access_emails.txt", "a") as f:
+            f.write(email.strip() + "\n")
+        st.success("You're on the list!")
+    else:
+        st.warning("Please enter a valid email address.")
 # --- Navigation ---
 st.markdown("---")
 if st.button("🔁 Analyze Another Habit", type="primary"):
