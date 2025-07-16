@@ -111,13 +111,21 @@ if st.session_state.calculated:
 
     EMAIL_FILE = os.path.abspath("early_access_emails.txt")  # Full system path
 
+        # Initialize email in session state
+    if 'email' not in st.session_state:
+        st.session_state.email = ""
+
+    # Bind the text input to session state
+    st.session_state.email = st.text_input(
+        "Enter your email:",
+        value=st.session_state.email
+    )
+
     if st.button("Notify Me"):
-        if "@" in email and "." in email:
-            with open(EMAIL_FILE, "a") as f:
-                f.write(email.strip() + "\n")
-            st.success(f"🎉 Saved to {EMAIL_FILE}")
-        else:
-            st.warning("Please enter a valid email address.")
+        if "@" in st.session_state.email and "." in st.session_state.email:
+            with open("early_access_emails.txt", "a") as f:
+                f.write(st.session_state.email.strip() + "\n")
+            st.success("🎉 Saved successfully!")
     # --- Share to Twitter ---
     tweet_text = f"I realized my ${habit} habit is costing me ${amount}/mo. If I just invested that instead, I'd have ${what_if:,.0f} by age 65. RIP to past me. #UnBudget #1PercentHabit "
     tweet_url = f"https://twitter.com/intent/tweet?text={tweet_text.replace(' ', '%20')}"
