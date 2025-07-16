@@ -2,6 +2,7 @@ import streamlit as st
 from Logic.budget import calculate_return
 import time
 import os
+from datetime import datetime
 # --- Session State Initialization ---
 for key, default in {
     "calculated": False,
@@ -109,22 +110,32 @@ if st.session_state.calculated:
     """
     )
 
-    EMAIL_FILE = os.path.abspath("early_access_emails.txt")  # Full system path
+    import gspread
+    from oauth2client.service_account import ServiceAccountCredentials
 
-    EMAIL_LOG_PATH = os.path.join(os.getcwd(), "early_access_emails.txt")
+    # --- Google Sheets Setup ---
+    def save_to_sheets(email):
+        scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+        creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
+        client = gspread.authorize(creds)
+        
+        # Open your sheet (replace with your actual sheet name)
+        sheet = client.open("1PercentGuiltTrip_Emails").sheet1
+        sheet.append_row([email, str(datetime.now())])  # Adds email + timestamp
 
+    # --- Email Capture ---
     email = st.text_input("Enter your email:")
 
     if st.button("Notify Me"):
         if "@" in email and "." in email:
             try:
-                with open(EMAIL_LOG_PATH, "a") as f:
-                    f.write(email.strip() + "\n")
-                st.success("🎉 You’re on the list! First access coming soon.")
+                save_to_sheets(email.strip())
+                st.success("🎉 You're on the list! Check your email for updates.")
+                st.balloons()  # Celebration!
             except Exception as e:
-                st.error(f"Couldn't save your email: {e}")
+                st.error(f"Error saving: {e}")  # Debug any issues
         else:
-            st.warning("Please enter a valid email address.")
+            st.warning("Please enter a valid email.")
     # --- Share to Twitter ---
     tweet_text = f"I realized my ${habit} habit is costing me ${amount}/mo. If I just invested that instead, I'd have ${what_if:,.0f} by age 65. RIP to past me. #UnBudget #1PercentHabit "
     tweet_url = f"https://twitter.com/intent/tweet?text={tweet_text.replace(' ', '%20')}"
