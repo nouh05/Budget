@@ -4,6 +4,8 @@ import time
 import os
 from datetime import datetime
 from google.oauth2.service_account import Credentials
+import gspread
+import json
 # --- Session State Initialization ---
 for key, default in {
     "calculated": False,
@@ -111,8 +113,7 @@ if st.session_state.calculated:
     """
     )
 
-    import gspread
-    from oauth2client.service_account import ServiceAccountCredentials
+    #from oauth2client.service_account import ServiceAccountCredentials
 
     # --- Google Sheets Setup ---
     def save_to_sheets(email):
