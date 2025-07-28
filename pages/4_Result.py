@@ -75,7 +75,7 @@ if st.toggle("📊 Show calculation details"):
     """)
 
 # Reset Button
-if st.button("🔁 Analyze Another Habit"):
+if st.button("🔁 Go to Dashboard"):
     for key in ["age", "amount", "habit", "challenge_started", "calculated", "valid_age", "valid_amount", "valid_habit"]:
         st.session_state.pop(key, None)
     st.switch_page("pages/5_Dashboard.py")
