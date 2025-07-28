@@ -3,8 +3,8 @@ from Logic.budget import calculate_return
 import time
 import os
 from datetime import datetime
-from google.oauth2.service_account import Credentials
-import gspread
+# from google.oauth2.service_account import Credentials
+# import gspread
 import json
 # --- Session State Initialization ---
 for key, default in {
