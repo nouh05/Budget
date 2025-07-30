@@ -48,23 +48,67 @@ roasts = {
 }
 st.error(roasts.get(habit, roasts["Other"]))
 
-# Financial Future
-st.subheader("💸 What You’re Actually Losing")
-what_if = calculate_return(amount, age, 65, 0.08)
-st.markdown(
-    f"""
-    <div style="font-size:1.25rem; margin-bottom:1.5rem;">
-        If you invested that instead, you’d have:
+# Financial Future Calculations
+one_year = calculate_return(amount, age, age+1, 0.08)
+five_year = calculate_return(amount, age, age+5, 0.08)
+ten_year = calculate_return(amount, age, age+10, 0.08)
+sixty_five = calculate_return(amount, age, 65, 0.08)
+
+# Format values before injecting into HTML
+one_year_str = f"${one_year:,.0f}"
+five_year_str = f"${five_year:,.0f}"
+ten_year_str = f"${ten_year:,.0f}"
+sixty_five_str = f"${sixty_five:,.0f}"
+
+# Show Results Grid
+st.markdown("""
+    <style>
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+    .card {
+        background-color: #ffffff;
+        padding: 1.5rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        text-align: center;
+    }
+    .amount {
+        font-size: 1.75rem;
+        font-weight: bold;
+        color: #10B981;
+    }
+    .label {
+        margin-top: 0.5rem;
+        font-size: 1rem;
+        color: #6B7280;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+st.markdown(f"""
+<div class="grid-container">
+    <div class="card">
+        <div class="amount">{one_year_str}</div>
+        <div class="label">In 1 Year</div>
     </div>
-    <div style="font-size:2rem; font-weight:700; color:#10B981;">
-        ${what_if:,.0f}
+    <div class="card">
+        <div class="amount">{five_year_str}</div>
+        <div class="label">In 5 Years</div>
     </div>
-    <div style="font-size:1rem; color:#6B7280; margin-top:0.5rem;">
-        by age 65 (at 8% annual return)
+    <div class="card">
+        <div class="amount">{ten_year_str}</div>
+        <div class="label">In 10 Years</div>
     </div>
-    """,
-    unsafe_allow_html=True
-)
+    <div class="card">
+        <div class="amount">{sixty_five_str}</div>
+        <div class="label">By Age 65</div>
+    </div>
+</div>
+""", unsafe_allow_html=True)
 
 if st.toggle("📊 Show calculation details"):
     st.markdown(f"""
