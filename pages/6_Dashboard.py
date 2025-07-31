@@ -12,7 +12,7 @@ if "total_saved" not in st.session_state:
 
 # --- Fallback values ---
 habit = st.session_state.get("habit", "your habit")
-monthly_spend = st.session_state.get("amount", 100)
+monthly_spend = float(st.session_state.get("valid_amount", 100.0))
 
 # --- Core Metrics ---
 daily_1pct = max((monthly_spend / 30) * 0.01, 0.01)

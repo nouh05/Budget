@@ -29,9 +29,9 @@ except ValueError:
     st.stop()
 
 # --- Show Result ---
-age = st.session_state.valid_age
-amount = st.session_state.valid_amount
-habit = st.session_state.valid_habit
+# age = st.session_state.valid_age
+# amount = st.session_state.valid_amount
+# habit = st.session_state.valid_habit
 
 death_age = 80
 years_left = death_age - age
@@ -117,9 +117,11 @@ if st.toggle("📊 Show calculation details"):
     - Annual return: **8%**
     - Formula: `FV = PMT × (((1 + r)ⁿ - 1) / r)`
     """)
-
+st.session_state.valid_age = age
+st.session_state.valid_amount = amount
+st.session_state.valid_habit = habit
 # Reset Button
-if st.button("🔁 Go to Dashboard"):
-    for key in ["age", "amount", "habit", "challenge_started", "calculated", "valid_age", "valid_amount", "valid_habit"]:
-        st.session_state.pop(key, None)
-    st.switch_page("pages/5_Dashboard.py")
+if st.button("🔁 Let's Get Saving"):
+    st.session_state.summary = True
+    
+    st.switch_page("pages/5_Summary.py")
